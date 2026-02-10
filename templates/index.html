@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>Key System</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <div class="card">
+        <h1>🔑 키 발급</h1>
+        <p>디스코드 서버에 들어오면<br>키를 받을 수 있습니다</p>
+
+        {% if error %}
+            <div class="error">{{ error }}</div>
+        {% endif %}
+
+        {% if key %}
+            <div class="key-box">{{ key }}</div>
+            <p class="success">복사해서 사용하세요</p>
+        {% else %}
+            <a class="btn" href="/login">디스코드로 로그인</a>
+        {% endif %}
+    </div>
+</body>
+</html>
