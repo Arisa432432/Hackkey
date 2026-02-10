@@ -1,5 +1,6 @@
 from flask import Flask, redirect, request, render_template
 import requests, uuid
+from urllib.parse import urlencode
 
 app = Flask(__name__)
 
@@ -44,8 +45,8 @@ def callback():
     headers = {
         "Content-Type": "application/x-www-form-urlencoded"
     }
-    # 토큰 요청
-    token_res = requests.post("https://discord.com/api/oauth2/token", data=data, headers=headers)
+    
+    token_res = requests.post("https://discord.com/api/oauth2/token", data=urlencode(data), headers=headers)
     token_json = token_res.json()
 
     access_token = token_json.get("access_token")
@@ -64,13 +65,6 @@ def callback():
     # 키 발급
     key = "KEY-" + uuid.uuid4().hex[:16].upper()
     return render_template("index.html", key=key)
-    
-
-    return f"""
-        <h3>✅ 키 발급 완료</h3>
-        <code>{key}</code>
-        <p>복사해서 사용하세요</p>
-    """
 
 if __name__ == "__main__":
     app.run(debug=True)
