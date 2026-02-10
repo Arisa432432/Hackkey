@@ -8,7 +8,7 @@ DISCORD_CLIENT_ID = "1470614217509044389"
 DISCORD_CLIENT_SECRET = "ckI9ryMsVg1k0XI5ShohkG3HXgzfAtyQ"
 DISCORD_BOT_TOKEN = "MTQ3MDYxNDIxNzUwOTA0NDM4OQ.GwsFCY.hg5dFtzAgEEUSTkAJaA8TttksmRjygkwVzkNeQ"
 GUILD_ID = "1468512911411511316"
-REDIRECT_URI = "http://localhost:5000/callback"
+REDIRECT_URI = "https://hackkey.onrender.com/callback"
 INVITE_LINK = "https://discord.gg/Rd7Nab8tmv"
 # ================================
 
