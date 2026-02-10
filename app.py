@@ -32,16 +32,39 @@ def callback():
     if not code:
         return render_template("index.html", error="로그인 실패")
 
-    # (중간 Discord 로직은 기존 그대로)
+    # 토큰 교환
+    data = {
+        "client_id": DISCORD_CLIENT_ID,
+        "client_secret": DISCORD_CLIENT_SECRET,
+        "grant_type": "authorization_code",
+        "code": code,
+        "redirect_uri": REDIRECT_URI,
+        "scope": "identify"
+    }
+    headers = {
+        "Content-Type": "application/x-www-form-urlencoded"
+    }
+    # 토큰 요청
+    token_res = requests.post("https://discord.com/api/oauth2/token", data=data, headers=headers)
+    token_json = token_res.json()
+
+    access_token = token_json.get("access_token")
+    if not access_token:
+        return render_template("index.html", error="토큰을 받지 못했습니다")
+
+    # 사용자 정보 요청
+    headers = {
+        "Authorization": f"Bearer {access_token}"
+    }
+    member = requests.get("https://discord.com/api/users/@me", headers=headers)
 
     if member.status_code != 200:
-        return render_template(
-            "index.html",
-            error="디스코드 서버에 먼저 들어와 주세요"
-        )
+        return render_template("index.html", error="디스코드 서버에 먼저 들어와 주세요")
 
+    # 키 발급
     key = "KEY-" + uuid.uuid4().hex[:16].upper()
     return render_template("index.html", key=key)
+    
 
     return f"""
         <h3>✅ 키 발급 완료</h3>
